@@ -1,0 +1,6 @@
+@Services.HorseAPI_HostAddress = http://localhost:5067
+
+GET {{Services.HorseAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
