@@ -1,20 +1,14 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Services.TrainerAPI.ApplicationLayer;
-using Services.TrainerAPI.Domain.Contracts;
-using Services.TrainerAPI.Infrastructure;
-using Services.TrainerAPI.Infrastructure.Implementations;
-using Services.TrainerAPI.Infrastructure.Mapping;
+using Services.AuthAPI.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<TrainerDbContext>(options => options.UseSqlServer(connectionString));
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<TrainerService>();
-builder.Services.AddAutoMapper(typeof(TrainerProfile));
+builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -32,6 +26,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

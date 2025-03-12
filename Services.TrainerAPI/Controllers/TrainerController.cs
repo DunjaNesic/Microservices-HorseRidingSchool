@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.TrainerAPI.ApplicationLayer;
 using Services.TrainerAPI.Domain;
+using Services.TrainerAPI.Domain.DTO;
 
 namespace Services.TrainerAPI.Controllers
 {
@@ -17,33 +18,43 @@ namespace Services.TrainerAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trainer>>> GetAllTrainers()
+        public async Task<IActionResult> GetAllTrainers()
         {
-            var trainers = await _trainerService.GetAllTrainersAsync();
-            return Ok(trainers); 
+            var response = await _trainerService.GetAllTrainersAsync();
+            if (!response.IsSuccessful)
+            {
+                return NotFound(response.Message);
+            }
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Trainer>> GetTrainerById(int id)
+        public async Task<IActionResult> GetTrainerById(int id)
         {
-            var trainer = await _trainerService.GetTrainerByIdAsync(id);
-            if (trainer == null)
+            var response = await _trainerService.GetTrainerByIdAsync(id);
+            if (!response.IsSuccessful)
             {
-                return NotFound(); 
+                return NotFound(response.Message);
             }
-            return Ok(trainer);  
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateTrainer([FromBody] Trainer trainer)
+        public async Task<IActionResult> CreateTrainer([FromBody] CreateTrainerDTO trainer)
         {
             if (trainer == null)
             {
                 return BadRequest("Trainer is null");
             }
 
-            await _trainerService.CreateTrainerAsync(trainer);
-            return CreatedAtAction(nameof(GetTrainerById), new { id = trainer.TrainerID }, trainer);  // Ako je uspešno kreiran, vrati 201 i lokaciju resursa
+            var response = await _trainerService.CreateTrainerAsync(trainer);
+
+            if (!response.IsSuccessful)
+            {
+                return BadRequest(response.Message);
+            }
+
+            return CreatedAtAction(nameof(GetTrainerById), new { id = ((Trainer)response.Result).TrainerID }, response);
         }
     }
 }
