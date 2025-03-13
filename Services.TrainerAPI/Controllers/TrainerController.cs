@@ -6,7 +6,7 @@ using Services.TrainerAPI.Domain.DTO;
 
 namespace Services.TrainerAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/trainer")]
     [ApiController]
     public class TrainerController : ControllerBase
     {
