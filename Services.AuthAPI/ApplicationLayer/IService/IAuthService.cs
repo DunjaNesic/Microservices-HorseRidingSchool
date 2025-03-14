@@ -6,5 +6,6 @@ namespace Services.AuthAPI.ApplicationLayer.IService
     {
         Task<string> Register(RegistrationDTO registrationDTO);
         Task<LoginResponseDTO> Login(LoginDTO loginDTO);
+        Task<bool> AssignRole(string email, string role);
     }
 }

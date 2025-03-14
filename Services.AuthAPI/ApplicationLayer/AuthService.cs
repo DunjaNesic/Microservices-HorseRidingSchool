@@ -11,16 +11,41 @@ namespace Services.AuthAPI.ApplicationLayer
         private readonly IUnitOfWork _uow;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        public AuthService(IUnitOfWork uow, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthService(IUnitOfWork uow, UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator, RoleManager<IdentityRole> roleManager)
         {
             _uow = uow;
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtTokenGenerator = jwtTokenGenerator;
         }
-        public Task<LoginResponseDTO> Login(LoginDTO loginDTO)
+
+        public async Task<LoginResponseDTO> Login(LoginDTO loginDTO)
         {
-            throw new NotImplementedException();
+            User? userToReturn = _uow.AuthRepository.GetUser(loginDTO.UserName);
+
+            bool isValid = await _userManager.CheckPasswordAsync(userToReturn, loginDTO.Password);
+            if (userToReturn == null || !isValid) {
+                return new LoginResponseDTO() { User = null, Token = "" };
+            }
+
+            var token = _jwtTokenGenerator.GenerateToken(userToReturn);
+
+            UserDTO userDTO = new UserDTO() {
+                ID = userToReturn.Id,
+                Email = userToReturn.Email,
+                Name = userToReturn.Name,
+                PhoneNumber = userToReturn.PhoneNumber           
+            };
+
+            LoginResponseDTO responseDTO = new LoginResponseDTO()
+            {
+                User = userDTO,
+                Token = token
+            };
+
+            return responseDTO;
         }
 
         public async Task<string> Register(RegistrationDTO registrationDTO)
@@ -59,8 +84,22 @@ namespace Services.AuthAPI.ApplicationLayer
             {
                 return ex.Message;
             }
+        }
 
+        public async Task<bool> AssignRole(string email, string role)
+        {
+            User? userToReturn = _uow.AuthRepository.GetUser(email);
 
+            if (userToReturn != null) {
+                if (!_roleManager.RoleExistsAsync(role).GetAwaiter().GetResult())
+                {
+                    _roleManager.CreateAsync(new IdentityRole(role)).GetAwaiter().GetResult();
+                }
+
+                await _userManager.AddToRoleAsync(userToReturn, role);
+                return true;
+            }
+            return false;
         }
     }
 }
