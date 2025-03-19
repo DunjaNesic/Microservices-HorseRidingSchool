@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.TrainerAPI.ApplicationLayer;
 using Services.TrainerAPI.Domain;
@@ -8,6 +9,7 @@ namespace Services.TrainerAPI.Controllers
 {
     [Route("api/trainer")]
     [ApiController]
+    [Authorize]
     public class TrainerController : ControllerBase
     {
         private readonly TrainerService _trainerService;
@@ -40,6 +42,7 @@ namespace Services.TrainerAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> CreateTrainer([FromBody] CreateTrainerDTO trainer)
         {
             if (trainer == null)

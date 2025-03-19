@@ -30,7 +30,7 @@ namespace Services.AuthAPI.ApplicationLayer
                 return new LoginResponseDTO() { User = null, Token = "" };
             }
 
-            var token = _jwtTokenGenerator.GenerateToken(userToReturn);
+            var token = await _jwtTokenGenerator.GenerateToken(userToReturn);
 
             UserDTO userDTO = new UserDTO() {
                 ID = userToReturn.Id,
