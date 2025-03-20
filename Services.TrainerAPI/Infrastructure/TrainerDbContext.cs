@@ -9,7 +9,6 @@ namespace Services.TrainerAPI.Infrastructure
         public TrainerDbContext(DbContextOptions<TrainerDbContext> options) : base(options)
         {
         }
-
         public DbSet<Trainer> Trainers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
