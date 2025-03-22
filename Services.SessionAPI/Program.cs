@@ -8,6 +8,7 @@ using Services.SessionAPI.ApplicationLayer.IService;
 using Services.SessionAPI.Domain.Contracts;
 using Services.SessionAPI.Infrastructure;
 using Services.SessionAPI.Infrastructure.Implementations;
+using Services.SessionAPI.Utilities;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,10 +24,12 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<SessionService>();
 builder.Services.AddScoped<IHorseService, HorseService>();
 builder.Services.AddScoped<ITrainerService, TrainerService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ApiAuthHttpClientHandler>();
 builder.Services.AddAutoMapper(typeof(SessionProfile));
 
-builder.Services.AddHttpClient("Horse", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:HorseAPI"]));
-builder.Services.AddHttpClient("Trainer", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:TrainerAPI"]));
+builder.Services.AddHttpClient("Horse", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:HorseAPI"])).AddHttpMessageHandler<ApiAuthHttpClientHandler>();
+builder.Services.AddHttpClient("Trainer", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:TrainerAPI"])).AddHttpMessageHandler<ApiAuthHttpClientHandler>(); ;
 
 
 builder.Services.AddControllers();

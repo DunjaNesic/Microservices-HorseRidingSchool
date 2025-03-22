@@ -11,6 +11,7 @@ namespace Services.SessionAPI.Controllers
 {
     [Route("api/session")]
     [ApiController]
+    [Authorize]
     public class SessionController : ControllerBase
     {
         private readonly SessionService _sessionService;
