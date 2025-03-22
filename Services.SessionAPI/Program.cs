@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Services.HorseAPI.Infrastructure.Mapping;
 using Services.SessionAPI.ApplicationLayer;
+using Services.SessionAPI.ApplicationLayer.IService;
 using Services.SessionAPI.Domain.Contracts;
 using Services.SessionAPI.Infrastructure;
 using Services.SessionAPI.Infrastructure.Implementations;
@@ -20,7 +21,13 @@ builder.Services.AddAutoMapper(typeof(SessionProfile));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<SessionService>();
+builder.Services.AddScoped<IHorseService, HorseService>();
+builder.Services.AddScoped<ITrainerService, TrainerService>();
 builder.Services.AddAutoMapper(typeof(SessionProfile));
+
+builder.Services.AddHttpClient("Horse", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:HorseAPI"]));
+builder.Services.AddHttpClient("Trainer", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:TrainerAPI"]));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

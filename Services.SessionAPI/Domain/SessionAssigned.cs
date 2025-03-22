@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Services.SessionAPI.Domain.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace Services.SessionAPI.Domain
 {
@@ -6,7 +7,8 @@ namespace Services.SessionAPI.Domain
     {
         [Key]
         public int SessionAssignedID { get; set; }
-        public string TrainerName { get; set; }
+        public int TrainerID { get; set; }
+        //public TrainerDTO Trainer { get; set; }
         public DateTime Date { get; set; }
 
     }

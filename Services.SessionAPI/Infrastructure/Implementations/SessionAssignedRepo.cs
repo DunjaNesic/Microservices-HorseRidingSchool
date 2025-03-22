@@ -29,5 +29,10 @@ namespace Services.SessionAPI.Infrastructure.Implementations
         {
             _context.SessionAssigned.Update(sessionAssigned);
         }
+        public void Delete(SessionAssigned sessionAssigned)
+        {
+            _context.SessionAssigned.Remove(sessionAssigned);
+        }
+
     }
 }

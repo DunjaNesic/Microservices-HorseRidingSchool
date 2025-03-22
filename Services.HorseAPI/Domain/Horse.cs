@@ -6,6 +6,8 @@
         public string Name { get; set; }
         public string Breed { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public double HorsePrice { get; set; }
+
 
     }
 }

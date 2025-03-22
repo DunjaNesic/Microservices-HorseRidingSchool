@@ -9,7 +9,7 @@ namespace Services.HorseAPI.Controllers
 {
     [Route("api/horse")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class HorseController : ControllerBase
     {
         private readonly HorseService _horseService;
@@ -42,7 +42,7 @@ namespace Services.HorseAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> CreateHorse([FromBody] CreateHorseDTO horse)
         {
             if (horse == null)

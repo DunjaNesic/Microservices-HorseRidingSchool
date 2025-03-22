@@ -9,7 +9,7 @@ namespace Services.SessionAPI.Domain.DTO
         public int SessionAssignedID { get; set; }
         //public SessionAssigned SessionAssigned { get; set; }
         public int HorseID { get; set; }
-        //public HorseDTO Horse { get; set; }
+        public HorseDTO Horse { get; set; }
         public bool IsOnPackage { get; set; }
         public string StudentName { get; set; }
 

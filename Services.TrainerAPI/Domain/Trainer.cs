@@ -15,6 +15,7 @@ namespace Services.TrainerAPI.Domain
         public string? PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime DateJoinedTheClub { get; set; }
+        public double TrainerPrice { get; set; }
 
     }
 }

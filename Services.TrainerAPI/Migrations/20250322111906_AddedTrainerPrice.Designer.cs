@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.TrainerAPI.Infrastructure;
 
@@ -11,9 +12,11 @@ using Services.TrainerAPI.Infrastructure;
 namespace Services.TrainerAPI.Migrations
 {
     [DbContext(typeof(TrainerDbContext))]
-    partial class TrainerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250322111906_AddedTrainerPrice")]
+    partial class AddedTrainerPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

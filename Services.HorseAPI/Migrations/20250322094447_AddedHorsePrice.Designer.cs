@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.HorseAPI.Infrastructure;
 
@@ -11,9 +12,11 @@ using Services.HorseAPI.Infrastructure;
 namespace Services.HorseAPI.Migrations
 {
     [DbContext(typeof(HorseDbContext))]
-    partial class HorseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250322094447_AddedHorsePrice")]
+    partial class AddedHorsePrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

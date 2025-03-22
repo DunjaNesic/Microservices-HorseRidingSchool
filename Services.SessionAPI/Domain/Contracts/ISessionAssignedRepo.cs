@@ -5,5 +5,6 @@
         Task<SessionAssigned?> GetSessionAssigned(int sessionID);
         Task Create(SessionAssigned sessionAssigned);
         void Update(SessionAssigned sessionAssigned);
+        void Delete(SessionAssigned sessionAssigned);
     }
 }

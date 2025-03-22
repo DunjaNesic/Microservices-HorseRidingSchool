@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Services.SessionAPI.ApplicationLayer;
+using Services.SessionAPI.ApplicationLayer.IService;
 using Services.SessionAPI.Domain.DTO;
 
 namespace Services.SessionAPI.Controllers
@@ -13,10 +14,14 @@ namespace Services.SessionAPI.Controllers
     public class SessionController : ControllerBase
     {
         private readonly SessionService _sessionService;
+        private readonly IHorseService _horseService;
+        private readonly ITrainerService _trainerService;
 
-        public SessionController(SessionService sessionService)
+        public SessionController(SessionService sessionService, IHorseService horseService, ITrainerService trainerService)
         {
             _sessionService = sessionService;
+            _horseService = horseService;
+            _trainerService = trainerService;
         }
 
         [HttpPost]
@@ -36,12 +41,70 @@ namespace Services.SessionAPI.Controllers
 
             var result = (SessionDetailsDTO)response.Result;
 
-            //if (response.IsNewlyCreated)
-            //{
-            //    return CreatedAtAction(nameof(SessionUpsert), new { id = result.HorseID }, result);
-            //}
+            return Ok(result);
+        }
+
+        [HttpPost("remove")]
+        public async Task<IActionResult> SessionRemove([FromBody] int sessionAssignedID)
+        {
+            var response = await _sessionService.RemoveSessionAsync(sessionAssignedID);
+
+            if (!response.IsSuccessful)
+            {
+                return BadRequest(response.Message);
+            }
+
+            var result = (SessionDetailsDTO)response.Result;
 
             return Ok(result);
+        }
+
+        [HttpGet("{sessionID}")]
+        public async Task<ResponseDTO> GetSessions(int sessionID)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                SessionAssignedDTO sessionAssigned = await _sessionService.GetSessionAssigned(sessionID);
+                IEnumerable<SessionDetailsDTO> sessionDetails = await _sessionService.GetSessionDetails(sessionID);
+
+                double total = 0;
+
+                IEnumerable<HorseDTO> horses = await _horseService.GetAllHorses();
+                TrainerDTO trainer = await _trainerService.GetTrainer(sessionAssigned.TrainerID);
+
+                foreach (var detail in sessionDetails)
+                {
+                    detail.Horse = horses.FirstOrDefault(h => h.HorseID == detail.HorseID);
+
+                    if (detail.IsOnPackage) total += 1500;
+                    
+                    else total += 1800;
+
+
+                    total -= detail.Horse.HorsePrice;
+                }
+
+                total -= trainer.TrainerPrice;
+
+                SessionDTO session = new SessionDTO() { 
+                   SessionAssigned = sessionAssigned,
+                   SessionDetails = sessionDetails,
+                   Total = total        
+                };
+
+                response.IsSuccessful = true;
+                response.Message = "Session fetched successfully."; 
+                response.Result = session;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccessful = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+
         }
 
     }

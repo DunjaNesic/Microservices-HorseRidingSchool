@@ -77,7 +77,84 @@ namespace Services.SessionAPI.ApplicationLayer
             return response;
         }
 
+        public async Task<ResponseDTO> RemoveSessionAsync(int sessionAssignedID)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                var existingSessionAssigned = await _uow.SessionAssignedRepository.GetSessionAssigned(sessionAssignedID);
 
+                if (existingSessionAssigned == null)
+                {
+                    response.IsSuccessful = false;
+                    response.Message = "Session not found.";
+                    return response;
+                }
 
+                var sessionDetailsList = await _uow.SessionDetailsRepository.GetSessionDetailsBySessionAssignedID(existingSessionAssigned.SessionAssignedID);
+
+                if (sessionDetailsList.Any())
+                {
+                    _uow.SessionDetailsRepository.DeleteRange(sessionDetailsList);
+                }
+
+                _uow.SessionAssignedRepository.Delete(existingSessionAssigned);
+
+                await _uow.SaveChanges();
+
+                response.IsSuccessful = true;
+                response.Message = "Session removed successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccessful = false;
+                response.Message = $"Error during session removal: {ex.Message}";
+            }
+
+            return response;
+        }
+
+        public async Task<SessionAssignedDTO> GetSessionAssigned(int sessionAssignedID)
+        {
+            var sessionAssigned = await _uow.SessionAssignedRepository
+                .GetSessionAssigned(sessionAssignedID);
+
+            if (sessionAssigned == null)
+            {
+                throw new Exception("Session not found.");
+            }
+
+            var sessionAssignedDTO = _mapper.Map<SessionAssignedDTO>(sessionAssigned);
+            return sessionAssignedDTO;
+        }
+
+        internal async Task<IEnumerable<SessionDetailsDTO>> GetSessionDetails(int sessionID)
+        {
+            try
+            {
+                var sessionAssigned = await _uow.SessionAssignedRepository
+                    .GetSessionAssigned(sessionID);
+
+                if (sessionAssigned == null)
+                {
+                    throw new Exception($"No session assigned found for session ID: {sessionID}");
+                }
+
+                var sessionDetails = await _uow.SessionDetailsRepository
+                    .GetSessionDetailsBySessionAssignedID(sessionAssigned.SessionAssignedID);
+
+                if (sessionDetails == null || !sessionDetails.Any())
+                {
+                    throw new Exception($"No session details found for session assigned ID: {sessionAssigned.SessionAssignedID}");
+                }
+
+                var sessionDetailsDTOs = _mapper.Map<IEnumerable<SessionDetailsDTO>>(sessionDetails);
+                return sessionDetailsDTOs;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error fetching session details: {ex.Message}");
+            }
+        }
     }
 }

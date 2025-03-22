@@ -11,6 +11,7 @@ namespace Services.TrainerAPI.Domain.DTO
         public string? PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime DateJoinedTheClub { get; set; } = DateTime.Now;
+        public double TrainerPrice { get; set; }
 
     }
 }

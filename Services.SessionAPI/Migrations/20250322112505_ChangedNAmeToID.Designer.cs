@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.SessionAPI.Infrastructure;
 
@@ -11,9 +12,11 @@ using Services.SessionAPI.Infrastructure;
 namespace Services.SessionAPI.Migrations
 {
     [DbContext(typeof(SessionDbContext))]
-    partial class SessionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250322112505_ChangedNAmeToID")]
+    partial class ChangedNAmeToID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

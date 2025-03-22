@@ -29,5 +29,24 @@ namespace Services.SessionAPI.Infrastructure.Implementations
         {
             _context.SessionDetails.Update(sessionDetails);
         }
+
+        public async Task<IEnumerable<SessionDetails>> GetSessionDetailsBySessionAssignedID(int sessionAssignedID)
+        {
+            return await _context.SessionDetails
+                                 .Where(sd => sd.SessionAssignedID == sessionAssignedID)
+                                 .ToListAsync();
+        }
+
+        public void Delete(SessionDetails sessionDetails)
+        {
+            _context.SessionDetails.Remove(sessionDetails);
+        }
+
+        public void DeleteRange(IEnumerable<SessionDetails> sessionDetailsList)
+        {
+            _context.SessionDetails.RemoveRange(sessionDetailsList);
+        }
+
+
     }
 }

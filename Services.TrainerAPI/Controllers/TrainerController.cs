@@ -9,7 +9,7 @@ namespace Services.TrainerAPI.Controllers
 {
     [Route("api/trainer")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class TrainerController : ControllerBase
     {
         private readonly TrainerService _trainerService;
@@ -42,7 +42,7 @@ namespace Services.TrainerAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> CreateTrainer([FromBody] CreateTrainerDTO trainer)
         {
             if (trainer == null)
