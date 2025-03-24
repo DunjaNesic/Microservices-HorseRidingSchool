@@ -12,10 +12,11 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Services.TrainerAPI/Services.TrainerAPI.csproj", "Services.TrainerAPI/"]
+COPY ["./Services.TrainerAPI.csproj", "Services.TrainerAPI/"]
+#COPY ["Services.TrainerAPI/Services.TrainerAPI.csproj", "Services.TrainerAPI/"]
 RUN dotnet restore "./Services.TrainerAPI/Services.TrainerAPI.csproj"
-COPY . .
 WORKDIR "/src/Services.TrainerAPI"
+COPY . .
 RUN dotnet build "./Services.TrainerAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

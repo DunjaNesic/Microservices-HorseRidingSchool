@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>0045ff61-12d9-4b18-af2b-05053dbf6315</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>

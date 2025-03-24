@@ -12,10 +12,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Services.AuthAPI/Services.AuthAPI.csproj", "Services.AuthAPI/"]
+COPY ["./Services.AuthAPI.csproj", "Services.AuthAPI/"]
 RUN dotnet restore "./Services.AuthAPI/Services.AuthAPI.csproj"
-COPY . .
 WORKDIR "/src/Services.AuthAPI"
+COPY . .
 RUN dotnet build "./Services.AuthAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

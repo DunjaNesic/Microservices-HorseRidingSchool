@@ -9,7 +9,7 @@ namespace Services.TrainerAPI.Controllers
 {
     [Route("api/trainer")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class TrainerController : ControllerBase
     {
         private readonly TrainerService _trainerService;
