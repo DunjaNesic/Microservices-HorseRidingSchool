@@ -62,11 +62,15 @@ namespace Services.SessionAPI.ApplicationLayer
                         await _uow.SessionDetailsRepository.Create(newSessionDetails);
                     }
                 }
-
+                
                 await _uow.SaveChanges();
+
+                var sessionToPublish = _mapper.Map<SessionPublishDTO>(sessionDTO);
+                sessionToPublish.Event = "Session_Published";
 
                 response.IsSuccessful = true;
                 response.Message = "Session upserted successfully.";
+                response.Result = sessionToPublish;
             }
             catch (Exception ex)
             {

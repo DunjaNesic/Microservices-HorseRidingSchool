@@ -9,7 +9,7 @@ namespace Services.HorseAPI.Controllers
 {
     [Route("api/horse")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class HorseController : ControllerBase
     {
         private readonly HorseService _horseService;

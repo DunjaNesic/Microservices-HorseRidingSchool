@@ -13,6 +13,8 @@ namespace Services.HorseAPI.Infrastructure.Mapping
                 .ReverseMap();
 
             CreateMap<SessionAssigned, SessionAssignedDTO>().ReverseMap();
+            CreateMap<SessionDTO, SessionPublishDTO>().ReverseMap();
+
         }
     }
 }

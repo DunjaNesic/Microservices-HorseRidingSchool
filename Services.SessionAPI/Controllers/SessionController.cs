@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Services.SessionAPI.ApplicationLayer;
@@ -11,18 +12,20 @@ namespace Services.SessionAPI.Controllers
 {
     [Route("api/session")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class SessionController : ControllerBase
     {
         private readonly SessionService _sessionService;
         private readonly IHorseService _horseService;
         private readonly ITrainerService _trainerService;
+        private readonly IMessageProducer _messageProducer;
 
-        public SessionController(SessionService sessionService, IHorseService horseService, ITrainerService trainerService)
+        public SessionController(SessionService sessionService, IHorseService horseService, ITrainerService trainerService, IMessageProducer messageProducer)
         {
             _sessionService = sessionService;
             _horseService = horseService;
             _trainerService = trainerService;
+            _messageProducer = messageProducer; 
         }
 
         [HttpPost]
@@ -40,12 +43,14 @@ namespace Services.SessionAPI.Controllers
                 return BadRequest(response.Message);
             }
 
-            var result = (SessionDetailsDTO)response.Result;
+            var result = (SessionPublishDTO)response.Result;
+            //_messageProducer.SendMessageAsync(result);
+            
 
             return Ok(result);
         }
 
-        [HttpPost("remove")]
+        [HttpDelete("remove")]
         public async Task<IActionResult> SessionRemove([FromBody] int sessionAssignedID)
         {
             var response = await _sessionService.RemoveSessionAsync(sessionAssignedID);
@@ -103,6 +108,7 @@ namespace Services.SessionAPI.Controllers
                 response.IsSuccessful = false;
                 response.Message = ex.Message;
             }
+           await _messageProducer.SendMessageAsync(response.Result);
 
             return response;
 

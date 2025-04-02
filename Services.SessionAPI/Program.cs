@@ -27,6 +27,9 @@ builder.Services.AddScoped<ITrainerService, TrainerService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ApiAuthHttpClientHandler>();
 builder.Services.AddAutoMapper(typeof(SessionProfile));
+builder.Services.AddSingleton<IRabbitMQConnection, RabbitMQConnection>();
+builder.Services.AddScoped<IMessageProducer, RabbitMQProducer>();
+
 
 builder.Services.AddHttpClient("Horse", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:HorseAPI"])).AddHttpMessageHandler<ApiAuthHttpClientHandler>();
 builder.Services.AddHttpClient("Trainer", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:TrainerAPI"])).AddHttpMessageHandler<ApiAuthHttpClientHandler>(); ;
@@ -89,6 +92,9 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+
+var rabbitConnection = app.Services.GetRequiredService<IRabbitMQConnection>();
+await rabbitConnection.InitializeAsync();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
