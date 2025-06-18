@@ -6,7 +6,7 @@ using Services.HorseAPI.Domain.DTO;
 
 namespace Services.HorseAPI.ApplicationLayer
 {
-    public class HorseService
+    public class HorseService : IHorseService
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;

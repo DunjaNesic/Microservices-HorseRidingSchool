@@ -44,7 +44,8 @@ namespace Services.SessionAPI.Controllers
             }
 
             var result = (SessionPublishDTO)response.Result;
-            //_messageProducer.SendMessageAsync(result);
+
+            await _messageProducer.SendMessageAsync(result);
             
 
             return Ok(result);

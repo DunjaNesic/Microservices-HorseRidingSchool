@@ -16,7 +16,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<HorseDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<HorseService>();
+//builder.Services.AddScoped<HorseService>();
+builder.Services.AddScoped<IHorseService, HorseService>();
 builder.Services.AddAutoMapper(typeof(HorseProfile));
 
 builder.Services.AddControllers();

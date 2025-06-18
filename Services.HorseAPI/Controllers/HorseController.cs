@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.HorseAPI.ApplicationLayer;
 using Services.HorseAPI.Domain;
+using Services.HorseAPI.Domain.Contracts;
 using Services.HorseAPI.Domain.DTO;
 
 namespace Services.HorseAPI.Controllers
@@ -12,9 +13,9 @@ namespace Services.HorseAPI.Controllers
     //[Authorize]
     public class HorseController : ControllerBase
     {
-        private readonly HorseService _horseService;
+        private readonly IHorseService _horseService;
 
-        public HorseController(HorseService horseService)
+        public HorseController(IHorseService horseService)
         {
             _horseService = horseService;
         }
