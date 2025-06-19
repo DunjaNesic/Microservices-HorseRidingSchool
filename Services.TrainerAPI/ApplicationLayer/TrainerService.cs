@@ -7,7 +7,7 @@ using Services.TrainerAPI.Infrastructure.Implementations;
 
 namespace Services.TrainerAPI.ApplicationLayer
 {
-    public class TrainerService
+    public class TrainerService : ITrainerService
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;

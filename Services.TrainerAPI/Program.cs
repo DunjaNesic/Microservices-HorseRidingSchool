@@ -16,7 +16,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<TrainerDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<TrainerService>();
+builder.Services.AddScoped<ITrainerService, TrainerService>();
 builder.Services.AddAutoMapper(typeof(TrainerProfile));
 
 builder.Services.AddControllers();

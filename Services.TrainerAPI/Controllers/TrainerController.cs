@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.TrainerAPI.ApplicationLayer;
 using Services.TrainerAPI.Domain;
+using Services.TrainerAPI.Domain.Contracts;
 using Services.TrainerAPI.Domain.DTO;
 
 namespace Services.TrainerAPI.Controllers
@@ -12,9 +13,9 @@ namespace Services.TrainerAPI.Controllers
     //[Authorize]
     public class TrainerController : ControllerBase
     {
-        private readonly TrainerService _trainerService;
+        private readonly ITrainerService _trainerService;
 
-        public TrainerController(TrainerService trainerService)
+        public TrainerController(ITrainerService trainerService)
         {
             _trainerService = trainerService;
         }
