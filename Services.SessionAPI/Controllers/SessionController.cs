@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Services.SessionAPI.ApplicationLayer;
 using Services.SessionAPI.ApplicationLayer.IService;
+using Services.SessionAPI.Domain.Contracts;
 using Services.SessionAPI.Domain.DTO;
 
 namespace Services.SessionAPI.Controllers
@@ -15,12 +16,12 @@ namespace Services.SessionAPI.Controllers
     //[Authorize]
     public class SessionController : ControllerBase
     {
-        private readonly SessionService _sessionService;
+        private readonly ISessionService _sessionService;
         private readonly IHorseService _horseService;
         private readonly ITrainerService _trainerService;
         private readonly IMessageProducer _messageProducer;
 
-        public SessionController(SessionService sessionService, IHorseService horseService, ITrainerService trainerService, IMessageProducer messageProducer)
+        public SessionController(ISessionService sessionService, IHorseService horseService, ITrainerService trainerService, IMessageProducer messageProducer)
         {
             _sessionService = sessionService;
             _horseService = horseService;

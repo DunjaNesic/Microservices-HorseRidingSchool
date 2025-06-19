@@ -6,7 +6,7 @@ using Services.SessionAPI.Domain.DTO;
 
 namespace Services.SessionAPI.ApplicationLayer
 {
-    public class SessionService
+    public class SessionService : ISessionService
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
@@ -132,7 +132,7 @@ namespace Services.SessionAPI.ApplicationLayer
             return sessionAssignedDTO;
         }
 
-        internal async Task<IEnumerable<SessionDetailsDTO>> GetSessionDetails(int sessionID)
+        public async Task<IEnumerable<SessionDetailsDTO>> GetSessionDetails(int sessionID)
         {
             try
             {
