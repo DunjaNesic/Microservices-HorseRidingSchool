@@ -7,7 +7,7 @@ using Services.TrainerAPI.Domain;
 using Services.TrainerAPI.Domain.DTO;
 using Services.TrainerAPI.Domain.Contracts;
 
-namespace Services.TrainerAPI.Tests.Controllers
+namespace Services.TrainerAPI.Tests
 {
     public class TrainerControllerTests
     {
