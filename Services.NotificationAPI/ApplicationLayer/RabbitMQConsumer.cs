@@ -9,10 +9,12 @@ namespace Services.NotificationAPI.ApplicationLayer
     public class RabbitMQConsumer : BackgroundService
     {
         private readonly IRabbitMQConnection _connection;
+        private readonly EmailService _emailService;
 
         public RabbitMQConsumer(IRabbitMQConnection connection)
         {
             _connection = connection;
+            _emailService = new EmailService();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -43,17 +45,11 @@ namespace Services.NotificationAPI.ApplicationLayer
 
                 Console.WriteLine($"Received message: {message}");
 
-                //try
-                //{
-                //    var session = JsonSerializer.Deserialize<SessionDTO>(message);
-                //    Console.WriteLine($"Session for TrainerID: {session?.SessionAssigned?.TrainerID}");
-                //    Console.WriteLine($"Would send email to: {session?.SessionAssigned?.UserEmail}");
-                //}
-                //catch
-                //{
-                //    Console.WriteLine("Could not deserialize message.");
-                //}
-
+                await _emailService.SendEmailAsync(
+                "ndunja2001@gmail.com",
+                "Nova poruka iz RabbitMQ",
+                 $"Sadržaj poruke: {message}"
+  );
                 await Task.Yield();
             };
 
