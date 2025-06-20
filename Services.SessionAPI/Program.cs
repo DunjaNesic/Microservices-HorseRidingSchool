@@ -21,7 +21,7 @@ builder.Services.AddDbContext<SessionDbContext>(options => options.UseSqlServer(
 builder.Services.AddAutoMapper(typeof(SessionProfile));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<SessionService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IHorseService, HorseService>();
 builder.Services.AddScoped<ITrainerService, TrainerService>();
 builder.Services.AddHttpContextAccessor();
