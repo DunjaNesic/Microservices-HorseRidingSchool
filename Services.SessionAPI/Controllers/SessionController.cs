@@ -52,8 +52,8 @@ namespace Services.SessionAPI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("remove")]
-        public async Task<IActionResult> SessionRemove([FromBody] int sessionAssignedID)
+        [HttpDelete("remove/{sessionAssignedID}")]
+        public async Task<IActionResult> SessionRemove(int sessionAssignedID)
         {
             var response = await _sessionService.RemoveSessionAsync(sessionAssignedID);
 
