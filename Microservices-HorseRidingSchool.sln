@@ -5,8 +5,6 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{BA0C546A-57B8-4A65-9300-9BA0C4141A76}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{01BAF7D5-F53F-499F-BC59-6EEC0E92EC7C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B676B5A4-6118-48B3-BB5A-D3797D120E72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.TrainerAPI", "Services.TrainerAPI\Services.TrainerAPI.csproj", "{1C5938C7-79F4-4E1E-B712-40D7205018C7}"
