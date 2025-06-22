@@ -97,11 +97,9 @@ var rabbitConnection = app.Services.GetRequiredService<IRabbitMQConnection>();
 await rabbitConnection.InitializeAsync();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 
