@@ -10,7 +10,7 @@ namespace Services.AuthAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-
+        //brt
         private readonly IAuthService _authService;
 
         public AuthController(IAuthService authService)
