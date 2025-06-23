@@ -28,8 +28,8 @@ jobs:
       - name: Begin SonarCloud analysis
         run: |
           dotnet sonarscanner begin \
-            /k:"Automatizacija" \
-            /o:"DunjaNesic" \
+            /k:"DunjaNesic_Microservices-HorseRidingSchool" \
+            /o:"dunjanesic" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.host.url="https://sonarcloud.io"
 
