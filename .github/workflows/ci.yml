@@ -25,8 +25,13 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Begin SonarQube analysis
-        run: dotnet sonarscanner begin /k:"Automatizacija" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name: Begin SonarCloud analysis
+        run: |
+          dotnet sonarscanner begin \
+            /k:"Automatizacija" \
+            /o:"DunjaNesic" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.host.url="https://sonarcloud.io"
 
       - name: Build solution
         run: dotnet build --no-restore
