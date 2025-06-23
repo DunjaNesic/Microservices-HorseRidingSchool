@@ -13,9 +13,7 @@ services:
       - sqlvolume:/var/opt/mssql
 
   authapi:
-    build:
-      context: ./Services.AuthAPI
-      dockerfile: Dockerfile
+    image: dunjanesic13/authapi:latest
     ports:
       - "5001:8080"
     depends_on:
@@ -24,9 +22,7 @@ services:
       - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=UserDB;User Id=sa;Password=Waban123!;TrustServerCertificate=True;
 
   horseapi:
-    build:
-      context: ./Services.HorseAPI
-      dockerfile: Dockerfile
+    image: dunjanesic13/horseapi:latest
     ports:
       - "5002:8080"
     depends_on:
@@ -35,9 +31,7 @@ services:
       - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=HorseDB;User Id=sa;Password=Waban123!;TrustServerCertificate=True;
 
   sessionapi:
-    build:
-      context: ./Services.SessionAPI
-      dockerfile: Dockerfile
+    image: dunjanesic13/sessionapi:latest
     ports:
       - "5003:8080"
     depends_on:
@@ -46,9 +40,7 @@ services:
       - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=SessionDB;User Id=sa;Password=Waban123!;TrustServerCertificate=True;
 
   trainerapi:
-    build:
-      context: ./Services.TrainerAPI
-      dockerfile: Dockerfile
+    image: dunjanesic13/trainerapi:latest
     ports:
       - "5004:8080"
     depends_on:
