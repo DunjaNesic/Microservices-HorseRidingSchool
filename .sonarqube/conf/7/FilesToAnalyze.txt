@@ -1,0 +1,9 @@
+﻿C:\Users\PC\Desktop\napredni\Microservices-HorseRidingSchool\Services.TrainerAPI.Tests\TrainerControllerTests.cs
+C:\Users\PC\Desktop\napredni\Microservices-HorseRidingSchool\Services.TrainerAPI.Tests\TrainerRepoTests.cs
+C:\Users\PC\Desktop\napredni\Microservices-HorseRidingSchool\Services.TrainerAPI.Tests\TrainerServiceTests.cs
+C:\Users\PC\.nuget\packages\microsoft.net.test.sdk\17.12.0\build\netcoreapp3.1\Microsoft.NET.Test.Sdk.Program.cs
+C:\Users\PC\.nuget\packages\microsoft.testplatform.testhost\17.12.0\build\netcoreapp3.1\x64\testhost.exe
+C:\Users\PC\.nuget\packages\microsoft.testplatform.testhost\17.12.0\build\netcoreapp3.1\x64\testhost.dll
+C:\Users\PC\.nuget\packages\xunit.runner.visualstudio\2.8.2\build\net6.0\xunit.runner.visualstudio.testadapter.dll
+C:\Users\PC\.nuget\packages\xunit.runner.visualstudio\2.8.2\build\net6.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\PC\.nuget\packages\xunit.runner.visualstudio\2.8.2\build\net6.0\xunit.runner.utility.netcoreapp10.dll

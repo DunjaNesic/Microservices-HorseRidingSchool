@@ -1,4 +1,4 @@
-name: Build and Test HorseAPI
+name: Build, Test and Analyze
 
 on:
   push:
@@ -19,11 +19,20 @@ jobs:
         with:
           dotnet-version: 9.0.102
 
+      - name: Install SonarScanner for .NET
+        run: dotnet tool install --global dotnet-sonarscanner
+
       - name: Restore dependencies
         run: dotnet restore
+
+      - name: Begin SonarQube analysis
+        run: dotnet sonarscanner begin /k:"Automatizacija" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
       - name: Build solution
         run: dotnet build --no-restore
 
       - name: Run unit tests
         run: dotnet test --no-build --verbosity normal
+
+      - name: End SonarQube analysis
+        run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
