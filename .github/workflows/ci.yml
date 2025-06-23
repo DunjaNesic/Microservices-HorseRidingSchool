@@ -40,5 +40,4 @@ jobs:
         run: dotnet test --no-build --verbosity normal
 
       - name: End SonarQube analysis
-        env: SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
