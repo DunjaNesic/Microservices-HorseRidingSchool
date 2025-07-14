@@ -16,6 +16,10 @@ namespace Services.SessionAPI.ApplicationLayer
 
         public async Task SendMessageAsync<T>(T message)
         {
+
+            //throw new Exception("Simulated failure: Notification service is down.");
+
+
             if (_connection.Connection == null)
             {
                 Console.WriteLine("RabbitMQ connection is not initialized.");
@@ -40,15 +44,10 @@ namespace Services.SessionAPI.ApplicationLayer
 
             var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
-            //var props = new BasicProperties();
-            //props.ContentType = "text/plain";
-            //props.Expiration = "36000000";
 
             await channel.BasicPublishAsync(
                 exchange: string.Empty,
                 routingKey: "booking",
-                //true,
-                //props,
                 body: body
             );
 

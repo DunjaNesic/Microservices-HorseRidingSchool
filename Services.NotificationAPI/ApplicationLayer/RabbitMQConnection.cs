@@ -42,9 +42,9 @@ namespace Services.NotificationAPI.ApplicationLayer
         {
             if (_connection != null)
             {
-                Console.WriteLine("🛑 Closing RabbitMQ connection...");
+                Console.WriteLine("Closing RabbitMQ connection...");
                 _connection.Dispose();
-                Console.WriteLine("✅ Connection closed.");
+                Console.WriteLine("Connection closed.");
             }
         }
     }
