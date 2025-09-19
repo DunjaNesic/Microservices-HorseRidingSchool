@@ -30,6 +30,8 @@ builder.Services.AddAutoMapper(typeof(SessionProfile));
 builder.Services.AddSingleton<IRabbitMQConnection, RabbitMQConnection>();
 builder.Services.AddScoped<IMessageProducer, RabbitMQProducer>();
 
+builder.Services.AddHostedService<OutboxWorker>();
+
 
 builder.Services.AddHttpClient("Horse", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:HorseAPI"])).AddHttpMessageHandler<ApiAuthHttpClientHandler>();
 builder.Services.AddHttpClient("Trainer", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:TrainerAPI"])).AddHttpMessageHandler<ApiAuthHttpClientHandler>(); ;

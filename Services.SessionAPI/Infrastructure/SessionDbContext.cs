@@ -10,6 +10,7 @@ namespace Services.SessionAPI.Infrastructure
         }
         public DbSet<SessionDetails> SessionDetails { get; set; }
         public DbSet<SessionAssigned> SessionAssigned { get; set; }
+        public DbSet<OutboxMessage> OutboxMessages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

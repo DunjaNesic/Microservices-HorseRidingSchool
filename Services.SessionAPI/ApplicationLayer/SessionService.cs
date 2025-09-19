@@ -19,16 +19,20 @@ namespace Services.SessionAPI.ApplicationLayer
         public async Task<ResponseDTO> UpsertSessionAsync(SessionDTO sessionDTO)
         {
             var response = new ResponseDTO();
+
+            if (sessionDTO == null)
+            {
+                response.IsSuccessful = false;
+                response.Message = "Session data is null.";
+                return response;
+            }
+
+            using var transaction = await _uow.Context.Database.BeginTransactionAsync();
+
             try
             {
-                if (sessionDTO == null)
-                {
-                    response.IsSuccessful = false;
-                    response.Message = "Session data is null.";
-                    return response;
-                }
-
-                var existingSessionAssigned = await _uow.SessionAssignedRepository.GetSessionAssigned(sessionDTO.SessionAssigned.SessionAssignedID);
+                var existingSessionAssigned = await _uow.SessionAssignedRepository
+                    .GetSessionAssigned(sessionDTO.SessionAssigned.SessionAssignedID);
 
                 if (existingSessionAssigned != null)
                 {
@@ -39,10 +43,9 @@ namespace Services.SessionAPI.ApplicationLayer
                 {
                     var newSessionAssigned = _mapper.Map<SessionAssigned>(sessionDTO.SessionAssigned);
                     await _uow.SessionAssignedRepository.Create(newSessionAssigned);
-                    existingSessionAssigned = newSessionAssigned;  
+                    await _uow.SaveChanges();
+                    existingSessionAssigned = newSessionAssigned;
                 }
-
-                await _uow.SaveChanges();  
 
                 foreach (var detailsDTO in sessionDTO.SessionDetails)
                 {
@@ -57,16 +60,19 @@ namespace Services.SessionAPI.ApplicationLayer
                     else
                     {
                         var newSessionDetails = _mapper.Map<SessionDetails>(detailsDTO);
-                        newSessionDetails.SessionAssignedID = existingSessionAssigned.SessionAssignedID;  
+                        newSessionDetails.SessionAssignedID = existingSessionAssigned.SessionAssignedID;
 
                         await _uow.SessionDetailsRepository.Create(newSessionDetails);
                     }
                 }
-                
-                await _uow.SaveChanges();
 
                 var sessionToPublish = _mapper.Map<SessionPublishDTO>(sessionDTO);
                 sessionToPublish.Event = "Session_Published";
+
+                _uow.AddOutboxMessage("Session_Published", sessionToPublish);
+
+                await _uow.SaveChanges();
+                await transaction.CommitAsync();
 
                 response.IsSuccessful = true;
                 response.Message = "Session upserted successfully.";
@@ -74,12 +80,15 @@ namespace Services.SessionAPI.ApplicationLayer
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
+
                 response.IsSuccessful = false;
                 response.Message = $"Error during session upsert: {ex.Message}";
             }
 
             return response;
         }
+
 
         public async Task<ResponseDTO> RemoveSessionAsync(int sessionAssignedID)
         {

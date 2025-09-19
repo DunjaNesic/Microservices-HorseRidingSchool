@@ -33,24 +33,16 @@ namespace Services.SessionAPI.Controllers
         public async Task<IActionResult> SessionUpsert([FromBody] SessionDTO session)
         {
             if (session == null)
-            {
                 return BadRequest("Session is null");
-            }
 
             var response = await _sessionService.UpsertSessionAsync(session);
 
             if (!response.IsSuccessful)
-            {
                 return BadRequest(response.Message);
-            }
 
-            var result = (SessionPublishDTO)response.Result;
-
-            await _messageProducer.SendMessageAsync(result);
-            
-
-            return Ok(result);
+            return Ok(response.Result);
         }
+
 
         [HttpDelete("remove/{sessionAssignedID}")]
         public async Task<IActionResult> SessionRemove(int sessionAssignedID)
