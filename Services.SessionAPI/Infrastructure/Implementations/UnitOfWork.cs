@@ -1,4 +1,5 @@
-﻿using Services.SessionAPI.Domain.Contracts;
+﻿using Services.SessionAPI.Domain;
+using Services.SessionAPI.Domain.Contracts;
 using Services.SessionAPI.Infrastructure;
 
 namespace Services.SessionAPI.Infrastructure.Implementations
@@ -24,7 +25,19 @@ namespace Services.SessionAPI.Infrastructure.Implementations
         public ISessionAssignedRepo SessionAssignedRepository => _sessionAssignedRepository.Value;  
 
         public ISessionDetailsRepo SessionDetailsRepository => _sessionDetailsRepository.Value;
+        public SessionDbContext Context => _context;
+        public void AddOutboxMessage(string type, object payload)
+        {
+            var outboxMessage = new OutboxMessage
+            {
+                Type = type,
+                Payload = System.Text.Json.JsonSerializer.Serialize(payload),
+                IsProcessed = false,
+                OccurredOn = DateTime.UtcNow
+            };
 
+            _context.OutboxMessages.Add(outboxMessage);
+        }
         public async Task SaveChanges() => await _context.SaveChangesAsync();
     }
 }

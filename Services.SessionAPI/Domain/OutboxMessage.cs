@@ -8,5 +8,6 @@
         public string Payload { get; set; } 
         public bool IsProcessed { get; set; } = false;
         public DateTime? ProcessedOn { get; set; }
+        public string? Error { get; set; }
     }
 }
